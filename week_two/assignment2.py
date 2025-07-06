@@ -26,7 +26,7 @@ while True:
             print("Invalid amount. Please enter a valid amount")
 
     elif option == "3":
-        withdraw_amount = input("How much do you want to withdraw? ")
+        withdraw_amount = input("Please enter the amount you want to withdraw. ")
         if  withdraw_amount.replace(".", "").isdigit():
             withdraw_amount = float(withdraw_amount)
             savings = 0
