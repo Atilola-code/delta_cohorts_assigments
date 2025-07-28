@@ -2,21 +2,14 @@ from functools import reduce
 
 # Number 1
 
-def update_name(full_name, updated_name):
-    return full_name, updated_name
-before, after = update_name("Chuka Emeka", "Chuka Okeke")
-print("Before update: ", before)
-print("After update: ", after)
+def update_name(full_name, changed_name):
+    full_name = "Chuka Emeka"
+    changed_name = full_name.replace("Chuka Okeke")
+    return full_name, changed_name
+print(
+    update_name()
+)
 
-#       OR
-
-# def update_name():
-#     full_name = "Chuka Emeka"
-#     updated_name = "Chuka Okeke"
-#     return full_name, updated_name
-# before, after = update_name()
-# print("Before update: ", before)
-# print("After update: ", after)
 
 # Number 2
 def bio_data(height, age):
@@ -147,7 +140,7 @@ print(
 
 # Number 15
 def censor_vowels(word):
-    vowel = "aeiou"
+    vowel = "aeiouAEIOU"
     result = ""
     for letter in word:
         if letter in vowel:
@@ -156,9 +149,9 @@ def censor_vowels(word):
             result += letter
     return result
 print(
-    # censor_vowels("NaijaTech").lower(),
-    # censor_vowels("Defibrillator").lower()
-    censor_vowels("Aeronautic").lower()
+    # censor_vowels("NaijaTech"),
+    # censor_vowels("Defibrillator")
+    censor_vowels("Aeronautic")
 )
 
 
