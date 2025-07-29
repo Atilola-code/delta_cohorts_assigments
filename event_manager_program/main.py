@@ -55,17 +55,17 @@ class EventManager:
     def add_event(self, event_id, name, date, capacity):
         if event_id not in self.events:
             self.events[event_id] = Event(event_id, name, date, capacity)
-            print(f"✅ Event with the name '{name}' has been added.")
+            print(f"Event with the name '{name}' has been added.")
         else:
-            print(f"❌ Event's ID already exists, please recheck ID")
+            print(f"Event's ID already exists, please recheck ID")
         return False
 
     def register_attendee(self, attendee_id, name, email):
         if attendee_id not in self.attendees:
             self.attendees[attendee_id] = Attendee(attendee_id, name, email)
-            print(f"✅ Attendee with the name '{name}' has been added.")
+            print(f"Attendee with the name '{name}' has been added.")
         else:
-            print(f"❌ Attendee's ID already registered, please recheck ID")
+            print(f"Attendee's ID already registered, please recheck ID")
             return False
 
     def sell_ticket(self, event_id, attendee_id):
@@ -81,9 +81,9 @@ class EventManager:
         if event.sell_ticket():
             attendee.add_ticket(event_id)
             self.tickets.append(Ticket(attendee_id, event_id))
-            print(f"🎟️ Ticket sold to '{attendee.name}' for event '{event.name}' ")
+            print(f"Ticket sold to '{attendee.name}' for event '{event.name}' ")
         else:
-            print("🚫 No Ticket available for this event.")
+            print("No Ticket available for this event.")
 
     def refund_ticket(self, event_id, attendee_id):
         if event_id not in self.events or attendee_id not in self.attendees:
@@ -95,11 +95,11 @@ class EventManager:
 
         # Remove ticket from attendee's list
         if not attendee.remove_ticket(event_id):
-            print("❌ Ticket not found for this attendee")
+            print("Ticket not found for this attendee")
             return
         # Remove ticket from the central list
         if not event.refund_ticket():
-            print("❌ Could not process event refund")
+            print("Could not process event refund")
             return
         ticket_refunded = False
         new_ticket_list = []
@@ -110,16 +110,16 @@ class EventManager:
                 ticket_refunded = True
         self.tickets = new_ticket_list
         if ticket_refunded:
-                print(f"💵 Ticket refunded for '{attendee.name}' from event '{event.name}'. ")
+                print(f"Ticket refunded for '{attendee.name}' from event '{event.name}'. ")
         else:
-                print("❌ Ticket record not found or already refunded.")
+                print("Ticket record not found or already refunded.")
 
     def cancel_event(self, event_id):
         if event_id not in self.events:
-            print("❌ Event not found!")
+            print("Event not found!")
             return
         event = self.events.pop(event_id)  # Remove event from the events dictionary
-        print(f"🚫 Event '{event.name}' cancelled")
+        print(f"Event '{event.name}' cancelled")
 
    # Remove all tickets related to the cancelled event
         deleted_tickets = []
@@ -140,22 +140,22 @@ class EventManager:
         if event_id in self.events:
             event = self.events[event_id] 
             availability = event.capacity - event.ticket_sold  # Calculate remaining tickets
-            print(f"🎟️ Ticket available for '{event.name}': {availability}")
+            print(f"Ticket available for '{event.name}': {availability}")
             return availability
         else:
-            print("❌ Event not found.")
+            print("Event not found.")
             return 0
         
     def lookup_attendee(self, attendee_id):
         if attendee_id in self.attendees:
             attendee = self.attendees[attendee_id]
-            print(f"🔎 Ticket found for {attendee.name}:")
+            print(f"Ticket found for {attendee.name}:")
             for event_id in attendee.tickets:
-            # Get the event name or show "Cancelled event" if it's been removed
+            # Get the event name or show cancelled event if it's been removed
                 event_name = self.events[event_id].name if event_id in self.events else "Cancelled event"
                 print(f"Event name: {event_name} (ID: {event_id})")
         else:
-            print("❌ Attendee not found.")
+            print("Attendee not found.")
 
 
 
@@ -266,7 +266,7 @@ class EventManager:
                 print("Exiting the program. Thank you for choosing us")
                 break
             else:
-                print("❌ Invalid choice, please select from option 1 - 8")
+                print("Invalid choice, please select from option 1 - 8")
                 
 
 if __name__ == "__main__":
