@@ -8,7 +8,6 @@ class Recruitment_Program:
     jobs = []
     def __init__(self):
         self.index = 0  # Initialize index for job viewing
-        self.best_qualified_candidate = ""
         Recruitment_Program.workers.append(Worker(
             "Tunde Adebayo", "Male", "Software Engineer", "B.Sc. Computer Science", 5, "Lagos, Nigeria", True
         ))
