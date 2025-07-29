@@ -7,43 +7,45 @@ class Event:
         self.ticket_sold = 0
 
     def has_space(self):
-        return self.ticket_sold < self.capacity
+        return self.ticket_sold < self.capacity  # Check if there are still tickets available
     
     def sell_ticket(self):
         if self.has_space():
-            self.ticket_sold += 1
+            self.ticket_sold += 1  # Increment ticket count if space is available
             return True
         return False
     
     def refund_ticket(self):
         if self.ticket_sold > 0:
-            self.ticket_sold -= 1
+            self.ticket_sold -= 1   # Decrement ticket count if at least one has been sold
             return True
         return False
     
+    # Attendee class represents a participant who can hold tickets to events
 class Attendee:
     def __init__(self, attendee_id, name, email):
         self.attendee_id = attendee_id
         self.name = name
         self.email = email
-        self.tickets = []
+        self.tickets = []   # Stores IDs of events this attendee has tickets for
         
-    def add_ticket(self, event_id):
+    def add_ticket(self, event_id):  # Add an event ID to the attendee's list
         self.tickets.append(event_id)
 
-    def remove_ticket(self, event_id):
+    def remove_ticket(self, event_id):  # Remove an event ID if present
         if event_id in self.tickets:
             self.tickets.remove(event_id)
             return True
         return False
     
+    # Ticket class connects an attendee with an event
 class Ticket:
     def __init__(self, event_id, attendee_id):
      self.event_id = event_id
      self.attendee_id = attendee_id
     
 
-
+# EventManager class manages all events, attendees, and ticket transactions
 class EventManager:
     def __init__(self):
         self.events = {}
@@ -91,9 +93,11 @@ class EventManager:
         event = self.events[event_id]
         attendee = self.attendees[attendee_id]
 
+        # Remove ticket from attendee's list
         if not attendee.remove_ticket(event_id):
             print("❌ Ticket not found for this attendee")
             return
+        # Remove ticket from the central list
         if not event.refund_ticket():
             print("❌ Could not process event refund")
             return
@@ -114,17 +118,17 @@ class EventManager:
         if event_id not in self.events:
             print("❌ Event not found!")
             return
-        event = self.events.pop(event_id)
+        event = self.events.pop(event_id)  # Remove event from the events dictionary
         print(f"🚫 Event '{event.name}' cancelled")
 
-# Remove all tickets related to the cancelled event
+   # Remove all tickets related to the cancelled event
         deleted_tickets = []
         for ticket in self.tickets:
             if ticket.event_id != event_id:
                 deleted_tickets.append(ticket)
         self.tickets = deleted_tickets
 
-# Remove event ID from all attendee ticket lists
+   # Remove event ID from all attendee ticket lists
         for attendee in self.attendees.values():
             updated_event = []
             for deleted_event in attendee.tickets:
@@ -135,7 +139,7 @@ class EventManager:
     def check_availability(self, event_id):
         if event_id in self.events:
             event = self.events[event_id] 
-            availability = event.capacity - event.ticket_sold
+            availability = event.capacity - event.ticket_sold  # Calculate remaining tickets
             print(f"🎟️ Ticket available for '{event.name}': {availability}")
             return availability
         else:
@@ -147,6 +151,7 @@ class EventManager:
             attendee = self.attendees[attendee_id]
             print(f"🔎 Ticket found for {attendee.name}:")
             for event_id in attendee.tickets:
+            # Get the event name or show "Cancelled event" if it's been removed
                 event_name = self.events[event_id].name if event_id in self.events else "Cancelled event"
                 print(f"Event name: {event_name} (ID: {event_id})")
         else:
@@ -176,7 +181,7 @@ class EventManager:
                     elif repeat_choice == "no":
                         break
 
-    
+            # Register Attendee
             elif choice == "2":
                 while True:
                     try:
@@ -192,7 +197,7 @@ class EventManager:
                         continue
                     elif repeat_a_choice == "no":
                         break
-
+            # Sell Ticket
             elif choice == "3":
                 while True:
                     try:
@@ -207,7 +212,7 @@ class EventManager:
                         continue
                     elif repeat_ticket_choice == "no":
                         break
-
+            # Refund Ticket
             elif choice == "4":
                  while True:
                     try:
@@ -217,7 +222,7 @@ class EventManager:
                     except ValueError:
                         print("Invalid input, please try again")
                     break
-
+            # Cancel Event
             elif choice == "5":
                  while True:
                     try:
@@ -230,6 +235,7 @@ class EventManager:
                         continue
                     elif repeat_cancel_choice == "no":
                         break
+            # Lookup Attendee
             elif choice == "6":
                  while True:
                     try:
@@ -242,6 +248,7 @@ class EventManager:
                         continue
                     elif repeat_lookup_choice == "no":
                         break
+            # Check Ticket Availability
             elif choice == "7":
                  while True:
                     try:
@@ -254,15 +261,12 @@ class EventManager:
                         continue
                     elif repeat_available_choice == "no":
                         break
+            # Exit Program
             elif choice == "8":
                 print("Exiting the program. Thank you for choosing us")
                 break
             else:
                 print("❌ Invalid choice, please select from option 1 - 8")
-                
-
-                
-
                 
 
 if __name__ == "__main__":
