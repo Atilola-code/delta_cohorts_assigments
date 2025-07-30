@@ -146,7 +146,7 @@ class EventManager:
                     try:
                         event_id = int(input("Enter the Event's ID: "))
                         attendee_id = int(input("Enter the Attendee's ID: "))
-                        self.sell_ticket(attendee_id, event_id)
+                        self.sell_ticket(event_id, attendee_id)
                     except ValueError:
                         print("Invalid input, please try again")
 
