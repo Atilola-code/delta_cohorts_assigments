@@ -15,12 +15,6 @@ class Event:
             return True
         return False
     
-    def refund_ticket(self):
-        if self.ticket_sold > 0:
-            self.ticket_sold -= 1   # Decrement ticket count if at least one has been sold
-            return True
-        return False
-    
     # Attendee class represents a participant who can hold tickets to events
 class Attendee:
     def __init__(self, attendee_id, name, email):
@@ -84,57 +78,6 @@ class EventManager:
             print(f"Ticket sold to '{attendee.name}' for event '{event.name}' ")
         else:
             print("No Ticket available for this event.")
-
-    def refund_ticket(self, event_id, attendee_id):
-        if event_id not in self.events or attendee_id not in self.attendees:
-            print("Invalid event or attendee ID")
-            return
-        
-        event = self.events[event_id]
-        attendee = self.attendees[attendee_id]
-
-        # Remove ticket from attendee's list
-        if not attendee.remove_ticket(event_id):
-            print("Ticket not found for this attendee")
-            return
-        # Remove ticket from the central list
-        if not event.refund_ticket():
-            print("Could not process event refund")
-            return
-        ticket_refunded = False
-        new_ticket_list = []
-        for ticket in self.tickets:
-            if not (ticket.attendee_id == attendee_id and ticket.event_id == event_id):
-                new_ticket_list.append(ticket)
-            else:
-                ticket_refunded = True
-        self.tickets = new_ticket_list
-        if ticket_refunded:
-                print(f"Ticket refunded for '{attendee.name}' from event '{event.name}'. ")
-        else:
-                print("Ticket record not found or already refunded.")
-
-    def cancel_event(self, event_id):
-        if event_id not in self.events:
-            print("Event not found!")
-            return
-        event = self.events.pop(event_id)  # Remove event from the events dictionary
-        print(f"Event '{event.name}' cancelled")
-
-   # Remove all tickets related to the cancelled event
-        deleted_tickets = []
-        for ticket in self.tickets:
-            if ticket.event_id != event_id:
-                deleted_tickets.append(ticket)
-        self.tickets = deleted_tickets
-
-   # Remove event ID from all attendee ticket lists
-        for attendee in self.attendees.values():
-            updated_event = []
-            for deleted_event in attendee.tickets:
-                if deleted_event != event_id:
-                  updated_event.append(deleted_event)
-                  attendee.tickets = updated_event
     
     def check_availability(self, event_id):
         if event_id in self.events:
@@ -162,8 +105,8 @@ class EventManager:
     def run_program(self):
         print(f"{"==" * 24}\n Welcome to the Event Management Program!\n{"==" * 24}")
         while True:
-            print("Please make a selection:\n1. Add an event\n2. Register Attendee\n3. Sell Ticket\n4. Refund Ticket\n5. Cancel Event\n6. Lookup Attendee\n7. Check Ticket Availability\n8. Exit")
-            choice = input("Choose from option (1 - 8): ")
+            print("Please make a selection:\n1. Add an event\n2. Register Attendee\n3. Sell Ticket\n4. Lookup Attendee\n5. Check Ticket Availability\n6. Exit")
+            choice = input("Choose from option (1 - 6): ")
             if choice == "1":
                 while True:
                     try:
@@ -212,31 +155,8 @@ class EventManager:
                         continue
                     elif repeat_ticket_choice == "no":
                         break
-            # Refund Ticket
-            elif choice == "4":
-                 while True:
-                    try:
-                        event_id = int(input("Enter the Event's ID: "))
-                        attendee_id = int(input("Enter the Attendee's ID: "))
-                        self.refund_ticket(event_id, attendee_id)
-                    except ValueError:
-                        print("Invalid input, please try again")
-                    break
-            # Cancel Event
-            elif choice == "5":
-                 while True:
-                    try:
-                        event_id = int(input("Enter the Event's ID to cancel: "))
-                        self.cancel_event(event_id)
-                    except ValueError:
-                        print("Invalid input, please try again")
-                    repeat_cancel_choice = input("Do you want to cancel another event? (Yes | No): ").strip().lower()
-                    if repeat_cancel_choice == "yes":
-                        continue
-                    elif repeat_cancel_choice == "no":
-                        break
             # Lookup Attendee
-            elif choice == "6":
+            elif choice == "4":
                  while True:
                     try:
                         attendee_id = int(input("Enter the Attendee's ID to look up: "))
@@ -249,7 +169,7 @@ class EventManager:
                     elif repeat_lookup_choice == "no":
                         break
             # Check Ticket Availability
-            elif choice == "7":
+            elif choice == "5":
                  while True:
                     try:
                         event_id = int(input("Enter the Event's ID to check availability: "))
@@ -262,11 +182,11 @@ class EventManager:
                     elif repeat_available_choice == "no":
                         break
             # Exit Program
-            elif choice == "8":
+            elif choice == "6":
                 print("Exiting the program. Thank you for choosing us")
                 break
             else:
-                print("Invalid choice, please select from option 1 - 8")
+                print("Invalid choice, please select from option 1 - 6")
                 
 
 if __name__ == "__main__":
